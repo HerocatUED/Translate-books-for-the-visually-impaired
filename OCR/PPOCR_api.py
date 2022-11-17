@@ -1,7 +1,3 @@
-# 调用 PaddleOCR-json.exe 的 Python Api
-# 项目主页：
-# https://github.com/hiroi-sora/PaddleOCR-json
-
 import os
 import subprocess  # 进程，管道
 from json import loads as jsonLoads, dumps as jsonDumps
@@ -12,9 +8,9 @@ class PPOCR:
     """调用OCR"""
 
     def __init__(self, exePath: str, argument: dict = None):
-        """初始化识别器。\n
-        :exePath: 识别器`PaddleOCR_json.exe`的路径。\n
-        :argument: 启动参数，字典`{"键":值}`。参数说明见 https://github.com/hiroi-sora/PaddleOCR-json
+        """初始化识别器。
+        exePath: 识别器`PaddleOCR_json.exe`的路径。
+        argument: 启动参数，字典`{"键":值}`。
         """
         cwd = os.path.abspath(os.path.join(exePath, os.pardir))  # 获取exe父文件夹
         # 处理启动参数
@@ -48,10 +44,10 @@ class PPOCR:
                 break
 
     def run(self, imgPath: str, argument: dict = None):
-        """对一张图片文字识别。\n
-        :exePath: 图片路径。\n
-        :argument: (可选)热更新参数，字典`{"键":值}`。参数说明见 https://github.com/hiroi-sora/PaddleOCR-json\n
-        :return:  {'code': 识别码, 'data': 内容列表或错误信息字符串}\n"""
+        """对一张图片文字识别。
+        exePath: 图片路径。
+        argument: (可选)热更新参数，字典`{"键":值}`。
+        return:  {'code': 识别码, 'data': 内容列表或错误信息字符串}"""
         if not self.ret.poll() == None:
             return {'code': 400, 'data': f'子进程已崩溃。'}
         writeDict = {'image_dir': imgPath}
@@ -74,10 +70,6 @@ class PPOCR:
             return jsonLoads(getStr)
         except Exception as e:
             return {'code': 402, 'data': f'识别器输出值反序列化JSON失败,疑似传入了不存在或无法识别的图片 \"{imgPath}\" 。异常信息：{e}。原始内容：{getStr}'}
-
-    def runClipboard(self):
-        """立刻对剪贴板第一位的图片进行文字识别。"""
-        return self.run('clipboard')
 
     def stop(self):
         self.ret.kill()  # 关闭子进程
