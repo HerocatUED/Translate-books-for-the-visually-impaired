@@ -5,8 +5,6 @@ import fitz
 import numpy as np
 import os
 
-
-
 ocr = PaddleOCR(use_angle_cls=False, use_gpu=True,
                 lang="ch", show_log=False)
 
@@ -30,16 +28,19 @@ for img_path in img_paths:
             imgs.append(img)
 
     cnt = 0
-
+    txt = ""
     for img in imgs:
         result = ocr.ocr(img, cls=False, det=True)[0]
-        txt = ""
         for idx in range(len(result)):
             res = result[idx]
             txt = txt + res[1][0] + "\n"
-        f = open(f'./output/{filename}.txt', 'a')
-        f.write(txt)
-
         cnt = cnt + 1
-        if cnt > 5:
-            break
+        # perform write operation every ten pages
+        if cnt >= 10:
+            f = open(f'./output/{filename}.txt', 'a')
+            f.write(txt)
+            cnt = 0
+            txt = ""
+    # the last one write operation
+    f = open(f'./output/{filename}.txt', 'a')
+    f.write(txt)
