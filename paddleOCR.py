@@ -18,29 +18,28 @@ for img_path in img_paths:
     with fitz.open(f'./input/{img_path}') as pdf:
         for pg in range(0, pdf.pageCount):
             page = pdf[pg]
-            mat = fitz.Matrix(2, 2)
-            pm = page.get_pixmap(matrix=mat, alpha=False)
-            # if width or height > 2000 pixels, don't enlarge the image
-            if pm.width > 2000 or pm.height > 2000:
-                pm = page.get_pixmap(matrix=fitz.Matrix(1, 1), alpha=False)
+            pm = page.get_pixmap(matrix=fitz.Matrix(1, 1), alpha=False)
+            pm = page.get_pixmap(matrix=fitz.Matrix(
+                2000/pm.height, 2000/pm.height), alpha=False)
             img = Image.frombytes("RGB", [pm.width, pm.height], pm.samples)
             img = cv2.cvtColor(np.array(img), cv2.COLOR_RGB2BGR)
             imgs.append(img)
 
     cnt = 0
     txt = ""
+    f = open(f'./output/{filename}.txt', 'a')
     for img in imgs:
         result = ocr.ocr(img, cls=False, det=True)[0]
         for idx in range(len(result)):
-            res = result[idx]
-            txt = txt + res[1][0] + "\n"
+            if not result[idx]:
+                continue
+            txt = txt + result[idx][1][0] + "\n"
         cnt = cnt + 1
         # perform write operation every ten pages
         if cnt >= 10:
-            f = open(f'./output/{filename}.txt', 'a')
             f.write(txt)
             cnt = 0
             txt = ""
     # the last one write operation
-    f = open(f'./output/{filename}.txt', 'a')
     f.write(txt)
+    break
