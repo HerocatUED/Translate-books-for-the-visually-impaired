@@ -34,6 +34,7 @@ for img_path in img_paths:
             if not result[idx]:
                 continue
             txt = txt + result[idx][1][0] + "\n"
+            
         cnt = cnt + 1
         # perform write operation every ten pages
         if cnt >= 10:
@@ -42,4 +43,3 @@ for img_path in img_paths:
             txt = ""
     # the last one write operation
     f.write(txt)
-    break
