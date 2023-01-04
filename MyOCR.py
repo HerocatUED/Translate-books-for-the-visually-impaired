@@ -1,7 +1,7 @@
 from paddleocr import PaddleOCR
 import numpy as np
 import os
-
+from ImageSegmentation import Coordinate
 
 # OCR operation
 def OCR(pages, filename, coordinates):
@@ -14,6 +14,7 @@ def OCR(pages, filename, coordinates):
     # OCR 
     txt = ""
     cnt = 0
+    lable="%&%$\n"
     f = open(f'./output/{filename}.txt', 'a')
     for page in pages:
         result = ocr.ocr(page, cls=False, det=True)[0]
