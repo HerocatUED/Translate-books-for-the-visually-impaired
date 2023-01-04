@@ -2,6 +2,8 @@ from paddleocr import PaddleOCR
 import numpy as np
 import os
 
+
+# OCR operation
 def OCR(pages, filename, coordinates):
     ocr = PaddleOCR(use_angle_cls=False, use_gpu=True,
                     lang="ch", show_log=False)

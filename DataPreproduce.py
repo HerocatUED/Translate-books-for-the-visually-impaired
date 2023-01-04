@@ -3,7 +3,7 @@ import cv2
 import fitz
 import numpy as np
 
-
+# convert scanned pdf file to pictures
 def preproduce(book_path):
     pages = []
     with fitz.open(f'./input/{book_path}') as pdf:
