@@ -9,3 +9,4 @@ for book_path in book_paths:
     pages=preproduce(book_path)
     img_coordinates,imgs=ImageSegment(pages)
     OCR(pages,bookname,img_coordinates)
+    # txt_captions = ImageCaption(imgs)
