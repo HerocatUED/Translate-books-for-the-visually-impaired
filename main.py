@@ -10,3 +10,4 @@ for book_path in book_paths:
     img_coordinates,imgs=ImageSegment(pages)
     OCR(pages,bookname,img_coordinates)
     # txt_captions = ImageCaption(imgs)
+    # reconstruct(txt_captions,bookname)
