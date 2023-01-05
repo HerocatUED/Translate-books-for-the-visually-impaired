@@ -13,5 +13,5 @@ for book_path in book_paths:
     img_coordinates,imgs=ImageSegment(pages)
     i=0
     for img in imgs:
-        cv2.imwrite(f'image{i}.png',img)
+        cv2.imwrite(f'./input/image{i}.png',img)
         i=i+1

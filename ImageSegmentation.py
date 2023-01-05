@@ -38,15 +38,17 @@ def ImageSegment(pages):
         # hard-code parameter: sample_w, sample_h, stride
         sample_w = 5
         sample_h = 7
-        stride = 5
+        stride = 65
         grid_w = w/(sample_w+1)
         grid_h = h/(sample_h+1)
         visited = np.zeros([h, w], dtype=np.int8)
         # sample points and spread
         for i in range(1, sample_w+1):
             for j in range(1, sample_h+1):
-                tx = grid_w*i
-                ty = grid_h*j
+                tx = int(grid_w*i)
+                ty = int(grid_h*j)
+                if img_page[ty][tx] >= 240:
+                    continue
                 flag = False
                 if len(areas):
                     for area in areas:
@@ -56,10 +58,13 @@ def ImageSegment(pages):
                 if flag:
                     continue
                 img_area = Area(tx, tx, ty, ty)
+                visited[ty][tx] = 1
                 spread(tx, ty, w, h, stride, visited, img_page, img_area)
                 areas.append(img_area)
         img_areas.append(areas)
         for area in areas:
+            if (area.x1-area.x0)*(area.y1-area.y0) < 130*130:
+                continue
             imgs.append(area.cut(page))
     return img_areas, imgs
 
@@ -72,7 +77,7 @@ def spread(x: int, y: int, w: int, h: int, stride: int, visited, img_page, area:
     for i in range(4):
         new_x = int(x+dx[i]*stride)
         new_y = int(y+dy[i]*stride)
-        if new_x >= 0 and new_x < w and new_y >= 0 and new_y < h and not visited[new_y][new_x] and img_page[new_y][new_x] < 240:
+        if new_x >= 0 and new_x < w and new_y >= 0 and new_y < h and (not visited[new_y][new_x]) and img_page[new_y][new_x] < 240:
             area.update(new_x, new_y)
             visited[new_y][new_x] = 1
             spread(new_x, new_y, w, h, stride, visited, img_page, area)
