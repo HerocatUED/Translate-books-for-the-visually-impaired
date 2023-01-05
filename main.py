@@ -1,10 +1,12 @@
 import os
 from DataPreproduce import preproduce
 from MyOCR import OCR
-from ImageSegmentation import *
+from ImageSegmentation import Area, ImageSegment
 
 book_paths = os.listdir('input')
 for book_path in book_paths:
+    if not book_path[-3:] == "pdf":
+        continue
     # if book xxx.pdf, bookname = xxx
     bookname = book_path[:-4]
     # convert scanned pdf file to pictures

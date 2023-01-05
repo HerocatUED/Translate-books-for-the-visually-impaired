@@ -4,7 +4,7 @@ import cv2
 
 
 class Area:  # x-width / y-height
-    def __init__(self, x0:int, x1:int, y0:int, y1:int):
+    def __init__(self, x0: int, x1: int, y0: int, y1: int):
         self.x0 = x0
         self.x1 = x1
         self.y0 = y0
@@ -22,11 +22,14 @@ class Area:  # x-width / y-height
     def contain(self, x: int, y: int) -> bool:
         return x >= self.x0 and x <= self.x1 and y >= self.y0 and y <= self.y1
 
+    def cut(self, page):
+        return page[self.y0:self.y1+1, self.x0:self.x1+1, :]
+
 
 # extract images and their areas from pages
 def ImageSegment(pages):
-    img_areas = []  # [[page1 area-list],[page2 area-list],...]
-    imgs = []  # [img1,img2,img3,...]
+    img_areas = []  # [[page1: area1,area2,...],[page2: area1,area2,...], ...]
+    imgs = []  # [img1,img2,img3, ...]
     for page in pages:
         gray_page = cv2.cvtColor(page, cv2.COLOR_BGR2GRAY)
         img_page = ndimage.maximum_filter(gray_page, 5)
@@ -34,7 +37,7 @@ def ImageSegment(pages):
         areas = []
         # hard-code parameter: sample_w, sample_h, stride
         sample_w = 5
-        sample_h = 8
+        sample_h = 7
         stride = 5
         grid_w = w/(sample_w+1)
         grid_h = h/(sample_h+1)
@@ -45,7 +48,7 @@ def ImageSegment(pages):
                 tx = grid_w*i
                 ty = grid_h*j
                 flag = False
-                if areas.len():
+                if len(areas):
                     for area in areas:
                         if(area.contain(tx, ty)):
                             flag = True
@@ -53,11 +56,23 @@ def ImageSegment(pages):
                 if flag:
                     continue
                 img_area = Area(tx, tx, ty, ty)
-                spread(tx, ty, stride, visited, img_page, img_area)
+                spread(tx, ty, w, h, stride, visited, img_page, img_area)
                 areas.append(img_area)
         img_areas.append(areas)
+        for area in areas:
+            imgs.append(area.cut(page))
     return img_areas, imgs
 
 
-def spread(x: int, y: int, stride: int, visited, map, area: Area):
-    pass
+dx = [0, 1, 0, -1]
+dy = [1, 0, -1, 0]
+
+
+def spread(x: int, y: int, w: int, h: int, stride: int, visited, img_page, area: Area):
+    for i in range(4):
+        new_x = int(x+dx[i]*stride)
+        new_y = int(y+dy[i]*stride)
+        if new_x >= 0 and new_x < w and new_y >= 0 and new_y < h and not visited[new_y][new_x] and img_page[new_y][new_x] < 240:
+            area.update(new_x, new_y)
+            visited[new_y][new_x] = 1
+            spread(new_x, new_y, w, h, stride, visited, img_page, area)
