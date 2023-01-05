@@ -1,20 +1,20 @@
 from paddleocr import PaddleOCR
 import numpy as np
 import os
-from ImageSegmentation import Coordinate
+from ImageSegmentation import Area
 
-# OCR operation
-def OCR(pages, filename, coordinates):
+
+def OCR(pages, filename:str, areas:Area):  # OCR operation
     ocr = PaddleOCR(use_angle_cls=False, use_gpu=True,
                     lang="ch", show_log=False)
-    # if the .txt file exit, recover it
+    # if the .txt file exit, cover it
     f = open(f'./output/{filename}.txt', 'w')
     f.write("")
     f.close()
-    # OCR 
+    # OCR
     txt = ""
     cnt = 0
-    lable="%&%$\n"
+    lable = "%&%$\n"
     f = open(f'./output/{filename}.txt', 'a')
     for page in pages:
         result = ocr.ocr(page, cls=False, det=True)[0]

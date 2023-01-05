@@ -3,8 +3,8 @@ import numpy as np
 import cv2
 
 
-class Coordinate:
-    def __init__(self, x0, x1, y0, y1):
+class Area:  # x-width / y-height
+    def __init__(self, x0:int, x1:int, y0:int, y1:int):
         self.x0 = x0
         self.x1 = x1
         self.y0 = y0
@@ -13,20 +13,51 @@ class Coordinate:
     def __eq__(self, other) -> bool:
         return other.x0 == self.x0 and other.x1 == self.x1 and other.y0 == self.y0 and other.y1 == self.y1
 
+    def update(self, x: int, y: int):
+        self.x0 = min(self.x0, x)
+        self.x1 = max(self.x1, x)
+        self.y0 = min(self.y0, y)
+        self.y1 = max(self.y1, y)
 
-# extract images and their coordinates from pages
+    def contain(self, x: int, y: int) -> bool:
+        return x >= self.x0 and x <= self.x1 and y >= self.y0 and y <= self.y1
+
+
+# extract images and their areas from pages
 def ImageSegment(pages):
-    img_coordinates = []
-    imgs = []
+    img_areas = []  # [[page1 area-list],[page2 area-list],...]
+    imgs = []  # [img1,img2,img3,...]
     for page in pages:
-        page = ndimage.maximum_filter(page, 5)
-        h, w = np.shape(page)
-        threshold_h=int(h/100)
-        threshold_w=int(w/100)
-        coordinates_old = []
-        coordinates_new = []
-        coordinates_old.append(Coordinate(0, h, 0, w))
-        while coordinates_old.len():
-            for coordinate in coordinates_old:
-                pass
-    return img_coordinates, imgs
+        gray_page = cv2.cvtColor(page, cv2.COLOR_BGR2GRAY)
+        img_page = ndimage.maximum_filter(gray_page, 5)
+        h, w = np.shape(img_page)
+        areas = []
+        # hard-code parameter: sample_w, sample_h, stride
+        sample_w = 5
+        sample_h = 8
+        stride = 5
+        grid_w = w/(sample_w+1)
+        grid_h = h/(sample_h+1)
+        visited = np.zeros([h, w], dtype=np.int8)
+        # sample points and spread
+        for i in range(1, sample_w+1):
+            for j in range(1, sample_h+1):
+                tx = grid_w*i
+                ty = grid_h*j
+                flag = False
+                if areas.len():
+                    for area in areas:
+                        if(area.contain(tx, ty)):
+                            flag = True
+                            break
+                if flag:
+                    continue
+                img_area = Area(tx, tx, ty, ty)
+                spread(tx, ty, stride, visited, img_page, img_area)
+                areas.append(img_area)
+        img_areas.append(areas)
+    return img_areas, imgs
+
+
+def spread(x: int, y: int, stride: int, visited, map, area: Area):
+    pass
