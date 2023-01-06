@@ -15,6 +15,9 @@ class Area:  # x-width / y-height
     def __eq__(self, other) -> bool:
         return other.x0 == self.x0 and other.x1 == self.x1 and other.y0 == self.y0 and other.y1 == self.y1
 
+    def __lt__(self, other) -> bool:
+        return self.y1 < other.y1
+
     def update(self, x: int, y: int):
         self.x0 = min(self.x0, x)
         self.x1 = max(self.x1, x)
@@ -63,6 +66,7 @@ def ImageSegment(pages):
                 visited[ty][tx] = 1
                 spread(tx, ty, w, h, stride, visited, img_page, img_area)
                 areas.append(img_area)
+        areas.sort()
         img_areas.append(areas)
         for area in areas:
             if (area.x1-area.x0)*(area.y1-area.y0) < 130*130:
