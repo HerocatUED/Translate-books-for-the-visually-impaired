@@ -1,7 +1,8 @@
 from scipy import ndimage
 import numpy as np
 import cv2
-
+import sys
+sys.setrecursionlimit(2000)
 
 class Area:  # x-width / y-height
     def __init__(self, x0: int, x1: int, y0: int, y1: int):
@@ -38,7 +39,7 @@ def ImageSegment(pages):
         # hard-code parameter: sample_w, sample_h, stride
         sample_w = 5
         sample_h = 7
-        stride = 65
+        stride = 100
         grid_w = w/(sample_w+1)
         grid_h = h/(sample_h+1)
         visited = np.zeros([h, w], dtype=np.int8)
@@ -81,3 +82,10 @@ def spread(x: int, y: int, w: int, h: int, stride: int, visited, img_page, area:
             area.update(new_x, new_y)
             visited[new_y][new_x] = 1
             spread(new_x, new_y, w, h, stride, visited, img_page, area)
+        else:
+            try_x=int(x+dx[i]*stride/2)
+            try_y=int(y+dy[i]*stride/2)
+            if try_x >= 0 and try_x < w and try_y >= 0 and try_y < h and (not visited[try_y][try_x]) and img_page[try_y][try_x] < 240:
+                area.update(try_x, try_y)
+                visited[try_y][try_x] = 1
+                spread(try_x, try_y, w, h, stride, visited, img_page, area)
