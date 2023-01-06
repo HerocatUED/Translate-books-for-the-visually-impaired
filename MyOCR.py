@@ -1,6 +1,4 @@
 from paddleocr import PaddleOCR
-import numpy as np
-import os
 from ImageSegmentation import Area
 
 
@@ -33,7 +31,8 @@ def OCR(pages, filename: str, img_areas: Area):  # OCR operation
                         flag = True
                         break
             if not flag:
-                txt = txt+lable
+                txt = txt + lable
         # perform write operation every page
         f.write(txt)
         txt = ""
+    f.close()

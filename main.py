@@ -1,7 +1,9 @@
 import os
 from DataPreproduce import preproduce
 from MyOCR import OCR
-from ImageSegmentation import Area, ImageSegment
+from ImageSegmentation import ImageSegment
+from ImageCaptions import ImageCaption
+from Reconstruction import reconstruct
 
 book_paths = os.listdir('input')
 for book_path in book_paths:
@@ -15,6 +17,7 @@ for book_path in book_paths:
     img_areas, imgs = ImageSegment(pages)
     # OCR operation
     OCR(pages, bookname, img_areas)
-
-    # txt_captions = ImageCaption(imgs)
-    # reconstruct(txt_captions,bookname)
+    # image-caption
+    txt_captions = ImageCaption(imgs)
+    # conbine txt_captions and txt-file
+    reconstruct(txt_captions, bookname)
