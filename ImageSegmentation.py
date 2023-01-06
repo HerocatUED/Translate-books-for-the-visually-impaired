@@ -4,6 +4,7 @@ import cv2
 import sys
 sys.setrecursionlimit(2000)
 
+
 class Area:  # x-width / y-height
     def __init__(self, x0: int, x1: int, y0: int, y1: int):
         self.x0 = x0
@@ -33,7 +34,7 @@ def ImageSegment(pages):
     imgs = []  # [img1,img2,img3, ...]
     for page in pages:
         gray_page = cv2.cvtColor(page, cv2.COLOR_BGR2GRAY)
-        img_page = ndimage.maximum_filter(gray_page, 5)
+        img_page = ndimage.maximum_filter(gray_page, 7)
         h, w = np.shape(img_page)
         areas = []
         # hard-code parameter: sample_w, sample_h, stride
@@ -83,8 +84,8 @@ def spread(x: int, y: int, w: int, h: int, stride: int, visited, img_page, area:
             visited[new_y][new_x] = 1
             spread(new_x, new_y, w, h, stride, visited, img_page, area)
         else:
-            try_x=int(x+dx[i]*stride/2)
-            try_y=int(y+dy[i]*stride/2)
+            try_x = int(x+dx[i]*stride/2)
+            try_y = int(y+dy[i]*stride/2)
             if try_x >= 0 and try_x < w and try_y >= 0 and try_y < h and (not visited[try_y][try_x]) and img_page[try_y][try_x] < 240:
                 area.update(try_x, try_y)
                 visited[try_y][try_x] = 1
