@@ -1,4 +1,4 @@
-This is XeTeX, Version 3.141592653-2.6-0.999994 (TeX Live 2022) (preloaded format=xelatex 2022.9.9)  8 JAN 2023 15:17
+This is XeTeX, Version 3.141592653-2.6-0.999994 (TeX Live 2022) (preloaded format=xelatex 2022.9.9)  8 JAN 2023 16:01
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -604,22 +604,16 @@ File: se-ascii-print.def 2019/11/29 v1.12 stringenc: Printable ASCII characters
 
 
 ] (./Report.aux)
-
-Package rerunfilecheck Warning: File `Report.out' has changed.
-(rerunfilecheck)                Rerun to get outlines right
-(rerunfilecheck)                or use package `bookmark'.
-
-Package rerunfilecheck Info: Checksums for `Report.out':
-(rerunfilecheck)             Before: 71A2921837E0D0D34D51A1E79B81FCFE;720
-(rerunfilecheck)             After:  93DEF20982B295E9EB1D85D169767443;44.
+Package rerunfilecheck Info: File `Report.out' has not changed.
+(rerunfilecheck)             Checksum: 93DEF20982B295E9EB1D85D169767443;44.
  ) 
 Here is how much of TeX's memory you used:
- 17727 strings out of 476179
- 298562 string characters out of 5809545
- 636585 words of memory out of 5000000
- 38219 multiletter control sequences out of 15000+600000
+ 17703 strings out of 476179
+ 298195 string characters out of 5809545
+ 633585 words of memory out of 5000000
+ 38195 multiletter control sequences out of 15000+600000
  483873 words of font info for 49 fonts, out of 8000000 for 9000
  1348 hyphenation exceptions out of 8191
- 92i,9n,93p,1401b,399s stack positions out of 10000i,1000n,20000p,200000b,200000s
+ 92i,9n,93p,999b,399s stack positions out of 10000i,1000n,20000p,200000b,200000s
 
 Output written on Report.pdf (1 page).
