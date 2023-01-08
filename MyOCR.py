@@ -11,7 +11,7 @@ def OCR(pages, filename: str, img_areas: Area):  # OCR operation
     f.close()
     # OCR
     txt = ""
-    lable = "%&%$\n"
+    label = "%&%$\n"
     f = open(f'./output/{filename}.txt', 'a')
     for i in range(len(pages)):
         page = pages[i]
@@ -19,19 +19,19 @@ def OCR(pages, filename: str, img_areas: Area):  # OCR operation
         result = ocr.ocr(page, cls=False, det=True)[0]
         for idx in range(len(result)):
             txt = txt + result[idx][1][0] + "\n"
-        # insert image lables
+        # insert image labels
         for area in areas:
             flag = False
             for idx in range(len(result)):
                 if area.y1 < result[idx][0][3][1]:
                     tmp = result[idx][1][0] + "\n"
                     if len(tmp) > 5:
-                        pos = txt.find(tmp)+len(tmp)
-                        txt = txt[:pos]+lable+txt[pos:]
+                        pos = txt.find(tmp) + len(tmp)
+                        txt = txt[:pos] + label + txt[pos:]
                         flag = True
                         break
             if not flag:
-                txt = txt + lable
+                txt = txt + label
         # perform write operation every page
         f.write(txt)
         txt = ""
