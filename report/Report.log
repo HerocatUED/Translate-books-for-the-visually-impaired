@@ -1,4 +1,4 @@
-This is XeTeX, Version 3.141592653-2.6-0.999994 (TeX Live 2022) (preloaded format=xelatex 2022.9.9)  8 JAN 2023 16:01
+This is XeTeX, Version 3.141592653-2.6-0.999994 (TeX Live 2022) (preloaded format=xelatex 2022.9.9)  9 JAN 2023 09:52
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -596,22 +596,22 @@ Package microtype Info: Loading generic protrusion settings for font family
 (microtype)             `pcr' (encoding: T1).
 (microtype)             For optimal results, create family-specific settings.
 (microtype)             See the microtype manual for details.
-
-No file Report.bbl.
-(d:/texlive/texlive/2022/texmf-dist/tex/generic/stringenc/se-ascii-print.def
+ (d:/texlive/texlive/2022/texmf-dist/tex/generic/stringenc/se-ascii-print.def
 File: se-ascii-print.def 2019/11/29 v1.12 stringenc: Printable ASCII characters
-) [1
+)
+No file Report.bbl.
+[1
 
 
 ] (./Report.aux)
 Package rerunfilecheck Info: File `Report.out' has not changed.
-(rerunfilecheck)             Checksum: 93DEF20982B295E9EB1D85D169767443;44.
+(rerunfilecheck)             Checksum: DC32713001E85A6FAAF1E7D79137D9E8;401.
  ) 
 Here is how much of TeX's memory you used:
- 17703 strings out of 476179
- 298195 string characters out of 5809545
- 633585 words of memory out of 5000000
- 38195 multiletter control sequences out of 15000+600000
+ 17701 strings out of 476179
+ 298181 string characters out of 5809545
+ 636585 words of memory out of 5000000
+ 38193 multiletter control sequences out of 15000+600000
  483873 words of font info for 49 fonts, out of 8000000 for 9000
  1348 hyphenation exceptions out of 8191
  92i,9n,93p,999b,399s stack positions out of 10000i,1000n,20000p,200000b,200000s

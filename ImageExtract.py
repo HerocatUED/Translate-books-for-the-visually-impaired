@@ -32,7 +32,7 @@ class Area:  # x-width / y-height
 
 
 # extract images and their areas from pages
-def ImageSegment(pages):
+def ImageExtractor(pages):
     img_areas = []  # [[page1: area1,area2,...],[page2: area1,area2,...], ...]
     imgs = []  # [img1,img2,img3, ...]
     for page in pages:

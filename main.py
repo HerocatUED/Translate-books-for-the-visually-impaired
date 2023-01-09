@@ -1,7 +1,7 @@
 import os
 from DataPreproduce import preproduce
 from MyOCR import OCR
-from ImageSegmentation import ImageSegment
+from ImageExtract import ImageExtractor
 from ImageCaptions import ImageCaption
 from Reconstruction import reconstruct
 
@@ -14,7 +14,7 @@ for book_path in book_paths:
     # convert scanned pdf file to pictures
     pages = preproduce(book_path)
     # extract images and their areas from pages
-    img_areas, imgs = ImageSegment(pages)
+    img_areas, imgs = ImageExtractor(pages)
     # OCR operation
     OCR(pages, bookname, img_areas)
     # image-caption

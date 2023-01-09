@@ -1,5 +1,5 @@
 from paddleocr import PaddleOCR
-from ImageSegmentation import Area
+from ImageExtract import Area
 
 
 def OCR(pages, filename: str, img_areas: Area):  # OCR operation
