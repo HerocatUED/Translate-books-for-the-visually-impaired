@@ -4,7 +4,7 @@ import fitz
 import numpy as np
 
 # convert scanned pdf file to pictures
-def preproduce(book_path:str):
+def preprocess(book_path:str):
     pages = []
     with fitz.open(f'./input/{book_path}') as pdf:
         for pg in range(0, pdf.pageCount):

@@ -1,5 +1,5 @@
 import os
-from DataPreproduce import preproduce
+from DataPreprocess import preprocess
 from MyOCR import OCR
 from ImageExtract import ImageExtractor
 from ImageCaptions import ImageCaption
@@ -12,7 +12,7 @@ for book_path in book_paths:
     # if book xxx.pdf, bookname = xxx
     bookname = book_path[:-4]
     # convert scanned pdf file to pictures
-    pages = preproduce(book_path)
+    pages = preprocess(book_path)
     # extract images and their areas from pages
     img_areas, imgs = ImageExtractor(pages)
     # OCR operation

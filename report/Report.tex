@@ -14,7 +14,7 @@
   Xin Hao \\
   Department of Artificial intelligence\\
   Peking University\\
-  \texttt{email} \\
+  \texttt{2100013152@stu.pku.edu.cn} \\
 }
 
 \begin{document}
@@ -24,15 +24,38 @@
   The growing spiritual and cultural requirements the blind need to be met. 
   However, barrier-free cultural products take a long time to prepare and are concentrated in more developed cities, they cannot be widespread to those in need. 
   Here we show the pipeline to translate books for the visually impaired mainly with Optical Character Recognition(OCR) and Image Caption(IC) technique. 
-  Our work demonstrates how to solve this problem using existing technology and our result can build the foundation of this task. 
+  Our work demonstrates how to solve this problem and our result can build the foundation of this task. 
   We anticipate our pipeline to be a starting point of research in translating books for the visually impaired and we hope we can bring light to the blind. 
 \end{abstract}
 
 \section{Introduction}
-\section{Module 1: Optical Character Recognition}
-\section{Module 2: Image Extractor}
-\section{Module 3: Image Caption}
-\section{Demonstrate}
+It is consists of four parts: OCR, Image Extractor, Text Typeset and Image Caption. 
+Before we feed inputs into the pipeline, we need to preprocess PDF file, turning every page of the PDF file into an image with the same size\footnote{
+Actually the same height, because the aspect ratio of one page varies from different books.
+}. We call these images as page-images.
+OCR module\footnote{
+Considering OCR technology is relatively mature, we choose to use existing OCR module. After trying different OCR modules, we choose Paddle OCR because its API is easy to use.
+} takes in page-images, and output text boxes, which contains characters and corresponding positions(coordinates). 
+Image Extractor also takes in page-images, finds out where the pictures are and cuts out pictures from origin pages. 
+With text boxes and positions of pictures, we can typeset the characters into a half-completed book with picture labels in proper place. 
+Image Caption module gets pictures from Image Extractor and output descriptions of these pictures. 
+Finally, we replace the picture labels with picture descriptions one by one, and output the translated book as .txt file.
+\cref{fig:fig1} demonstrates the whole pipeline.
+
+\section{Image Extractor}
+This module need to frame every picture in a page with a rectangular area, 
+and for a single page, it should output pictures separately and accurately, so that the Image Caption module can produce description for every pictures. 
+Of course we can handle this problem with deep learning, but traditional method can work good enough. 
+\subsection{Basic idea}
+
+\subsection{Some details}
+mask, gray-scale, stride, rectangular
+
+\section{Text Typeset}
+
+\section{Image Caption}
+
+
 \section{Analyse}
 
 
@@ -42,7 +65,11 @@
 \appendix
 
 \section{Appendix}
-
-Optionally include extra information (complete proofs, additional experiments and plots) in the appendix. This section will often be part of the supplemental material.
+\begin{figure}
+    \centering
+    \includegraphics[width=0.8\linewidth]{figures/Overview.png}
+    \caption{Pipeline}
+    \label{fig:fig1}
+\end{figure}
 
 \end{document}

@@ -1,4 +1,4 @@
-This is XeTeX, Version 3.141592653-2.6-0.999994 (TeX Live 2022) (preloaded format=xelatex 2022.9.9)  9 JAN 2023 09:52
+This is XeTeX, Version 3.141592653-2.6-0.999994 (TeX Live 2022) (preloaded format=xelatex 2022.9.9)  12 JAN 2023 13:34
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -600,20 +600,25 @@ Package microtype Info: Loading generic protrusion settings for font family
 File: se-ascii-print.def 2019/11/29 v1.12 stringenc: Printable ASCII characters
 )
 No file Report.bbl.
-[1
+File: figures/Overview.png Graphic file (type bmp)
+<figures/Overview.png>
+
+Underfull \vbox (badness 1132) has occurred while \output is active []
+
+ [1
 
 
-] (./Report.aux)
+] [2] (./Report.aux)
 Package rerunfilecheck Info: File `Report.out' has not changed.
-(rerunfilecheck)             Checksum: DC32713001E85A6FAAF1E7D79137D9E8;401.
+(rerunfilecheck)             Checksum: ED6032CF217E5D4F93AA7FD3045B1564;413.
  ) 
 Here is how much of TeX's memory you used:
- 17701 strings out of 476179
- 298181 string characters out of 5809545
- 636585 words of memory out of 5000000
- 38193 multiletter control sequences out of 15000+600000
- 483873 words of font info for 49 fonts, out of 8000000 for 9000
+ 17762 strings out of 476179
+ 299110 string characters out of 5809545
+ 640585 words of memory out of 5000000
+ 38240 multiletter control sequences out of 15000+600000
+ 490630 words of font info for 65 fonts, out of 8000000 for 9000
  1348 hyphenation exceptions out of 8191
- 92i,9n,93p,999b,399s stack positions out of 10000i,1000n,20000p,200000b,200000s
+ 92i,9n,93p,999b,428s stack positions out of 10000i,1000n,20000p,200000b,200000s
 
-Output written on Report.pdf (1 page).
+Output written on Report.pdf (2 pages).
