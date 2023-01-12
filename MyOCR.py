@@ -3,7 +3,7 @@ from ImageExtract import Area
 
 
 def OCR(pages, filename: str, img_areas: Area):  # OCR operation
-    ocr = PaddleOCR(use_angle_cls=False, use_gpu=True,
+    ocr = PaddleOCR(use_angle_cls=True, use_gpu=True,
                     lang="ch", show_log=False)
     # if the .txt file exit, cover it
     f = open(f'./output/{filename}.txt', 'w')
