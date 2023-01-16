@@ -69,7 +69,7 @@ def ImageExtractor(pages):
         areas.sort()
         img_areas.append(areas)
         for area in areas:
-            if (area.x1-area.x0)*(area.y1-area.y0) < 130*130:
+            if (area.x1-area.x0)*(area.y1-area.y0) < h*w/200:
                 continue
             imgs.append(area.cut(page))
     return img_areas, imgs
