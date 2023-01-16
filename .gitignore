@@ -5,5 +5,6 @@
 *.cubin
 *.fatbin
 Datasets/
+report/
+*.png
 *.txt
-*.pdf
