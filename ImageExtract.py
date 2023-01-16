@@ -100,5 +100,12 @@ def mask(page, textBox):
         y0 = int(coordinate[0][1])
         x1 = int(coordinate[2][0])
         y1 = int(coordinate[2][1])
-        page[y0:y1, x0:x1, :] = 255
+        for i in range(3):
+            color_sum = 0
+            color_sum += np.sum(page[y0:y1+1, x0, i])
+            color_sum += np.sum(page[y0:y1+1, x1, i])
+            color_sum += np.sum(page[y0, x0+1:x1, i])
+            color_sum += np.sum(page[y1, x0+1:x1, i])
+            color = color_sum/(y1-y0+x1-x0+2)/2
+            page[y0-5:y1+6, x0-5:x1+6, i] = color
     return page
