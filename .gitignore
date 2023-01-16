@@ -6,3 +6,5 @@
 *.fatbin
 Datasets/
 report/
+*.png
+*.txt
