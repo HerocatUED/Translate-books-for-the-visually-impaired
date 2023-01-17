@@ -40,8 +40,8 @@ def ImageExtractor(page, textBox):
     gray_page = ndimage.gaussian_filter(spread_page, 20, mode='reflect')
     h, w = np.shape(gray_page)
     # hard-code parameter: sample_w, sample_h, stride
-    sample_w = 5
-    sample_h = 7
+    sample_w = 7
+    sample_h = 9
     stride = 100
     grid_w = w/(sample_w+1)
     grid_h = h/(sample_h+1)
@@ -70,8 +70,11 @@ def ImageExtractor(page, textBox):
         if (area.x1-area.x0)*(area.y1-area.y0) < h*w/200:
             continue
         pictures.append(area.cut(masked_page))
-    if len(textBox) == 0 and len(areas):
-        return [Area(0, 0, 0, 0)], [page]
+    if len(textBox) == 0 :
+        if len(areas):
+            return [Area(0, 0, 0, 0)], [page]
+        else: return [],[]
+
     return areas, pictures
 
 

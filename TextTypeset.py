@@ -5,10 +5,13 @@ def textTypeset(result, filename: str, img_areas: Area):
     txt = ""
     label = "%&%$\n"
     f = open(f'./output/{filename}.txt', 'a')
-    if len(result) == 0 and len(img_areas):
-        txt = txt + label
-        f.write(txt)
-        return
+    if len(result) == 0:
+        if len(img_areas):
+            txt = txt + label
+            f.write(txt)
+            return
+        else:
+            return
     for idx in range(len(result)):
         txt = txt + result[idx][1][0] + "\n"
     # insert image labels
@@ -26,4 +29,3 @@ def textTypeset(result, filename: str, img_areas: Area):
             txt = txt + label
     # perform write operation every page
     f.write(txt)
-
