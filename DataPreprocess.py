@@ -15,7 +15,9 @@ def extract_img():
     ocr = PaddleOCR(use_angle_cls=True, use_gpu=True,
                     lang="ch", show_log=False)
     j = 0
+    k = 0
     for book_path in book_paths:
+        k += 1
         if not book_path[-3:] == "pdf":
             continue
         # if book xxx.pdf, bookname = xxx
@@ -32,7 +34,7 @@ def extract_img():
             # text typeset
             textTypeset(result, bookname, img_areas)
             for img in imgs:
-                cv2.imwrite(f'./output/{bookname}/{j}_image.png', img)
+                cv2.imwrite(f'./output/{k}/{j}_image.png', img)
                 j += 1
 
 

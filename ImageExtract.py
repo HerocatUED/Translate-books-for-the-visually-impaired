@@ -37,7 +37,8 @@ def ImageExtractor(page, textBox):
     pictures = []  # [img1,img2,img3, ...]
     masked_page = mask(page, textBox)  # mask characters
     spread_page = cv2.cvtColor(masked_page, cv2.COLOR_BGR2GRAY)  # gray-scale
-    gray_page = ndimage.gaussian_filter(spread_page, 20, mode='reflect')
+    # gray_page = ndimage.gaussian_filter(spread_page, 20, mode='reflect')
+    gray_page=spread_page
     h, w = np.shape(gray_page)
     # hard-code parameter: sample_w, sample_h, stride
     sample_w = 7
