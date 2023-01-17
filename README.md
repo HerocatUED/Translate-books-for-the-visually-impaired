@@ -5,5 +5,5 @@ Translate a well-written book for the visually impaired, in which all the pictur
 1. Install [PaddleOCR](https://github.com/PaddlePaddle/PaddleOCR), you can see instruction [here](https://github.com/PaddlePaddle/PaddleOCR/blob/release/2.6/doc/doc_ch/environment.md) .
 
 # Project Overview
-![image](https://github.com/HerocatUED/Translate-books-for-the-visually-impaired/blob/OCR-dev/Overview.png)
+![image](https://github.com/HerocatUED/Translate-books-for-the-visually-impaired/blob/mater/Overview.png)
 
