@@ -13,6 +13,9 @@ def textTypeset(textBoxes, filename: str, img_areas: Area):  # OCR operation
     for i in range(len(textBoxes)):
         areas = img_areas[i]
         result = textBoxes[i]
+        if len(result) == 0 and len(areas):
+            txt = txt + label
+            continue
         for idx in range(len(result)):
             txt = txt + result[idx][1][0] + "\n"
         # insert image labels

@@ -1,6 +1,6 @@
 import os
 from paddleocr import PaddleOCR
-from DataPreprocess import preprocess
+from PageProcess import toImage
 from ImageExtract import ImageExtractor
 from TextTypeset import textTypeset
 from ImageCaptions import ImageCaption
@@ -16,7 +16,7 @@ for book_path in book_paths:
     # if book xxx.pdf, bookname = xxx
     bookname = book_path[:-4]
     # convert scanned pdf file to pictures
-    pages = preprocess(book_path)
+    pages = toImage(book_path)
     img_areas = []  # [[page1: area1,area2,...],[page2: area1,area2,...], ...]
     imgs = []  # [img1,img2,img3, ...]
     results = []  # [result1,result2, ...]
