@@ -1,7 +1,7 @@
-from PIL import Image
 import cv2
 import fitz
 import numpy as np
+from PIL import Image
 
 # convert scanned pdf file to pictures
 def toImage(book_path:str):

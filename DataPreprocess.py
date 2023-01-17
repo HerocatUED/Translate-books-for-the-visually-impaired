@@ -2,14 +2,18 @@ import os
 import cv2
 from paddleocr import PaddleOCR
 from PageProcess import toImage
-from ImageExtract import *
 from TextTypeset import textTypeset
+from ImageExtract import *
+
+
+book_paths = os.listdir('input')
+labels = {'敦煌奇幻旅行记1': '插图，', '五三班的坏小子': '插图：', 'test': '插图'}
+encode = {'敦煌奇幻旅行记1': 'utf-8', '五三班的坏小子': 'gbk', 'test': 'utf-8'}
 
 
 def extract_img():
     ocr = PaddleOCR(use_angle_cls=True, use_gpu=True,
                     lang="ch", show_log=False)
-    book_paths = os.listdir('Data_img')
     j = 0
     for book_path in book_paths:
         if not book_path[-3:] == "pdf":
@@ -17,48 +21,44 @@ def extract_img():
         # if book xxx.pdf, bookname = xxx
         bookname = book_path[:-4]
         # convert scanned pdf file to pictures
+        print(f"Processing {bookname}")
         pages = toImage(book_path)
-        img_areas = []  # [[page1: area1,area2,...],[page2: area1,area2,...], ...]
-        imgs = []  # [img1,img2,img3, ...]
-        results = []  # [result1,result2, ...]
-        for page in pages:
+        for i in range(len(pages)):
+            print(f'Processing page {i}')
+            page = pages[i]
             result = ocr.ocr(page, cls=False)[0]
             # extract images and their areas from pages
-            img_area, pictures = ImageExtractor(page, result)
-            img_areas.append(img_area)
-            imgs += pictures
-            results.append(result)
-        # text typeset
-        textTypeset(results, bookname, img_areas)
-        for img in imgs:
-            cv2.imwrite(f'./output/{j}_image.png', img)
-            j += 1
+            img_areas, imgs = ImageExtractor(page, result)
+            # text typeset
+            textTypeset(result, bookname, img_areas)
+            for img in imgs:
+                cv2.imwrite(f'./output/{bookname}/{j}_image.png', img)
+                j += 1
 
 
 def extract_txt():
-    book_paths = os.listdir('Data_txt')
-    labels = ['一副插图，','插图']
     i = 0
-    j = 0
     for book_path in book_paths:
         if not book_path[-3:] == "txt":
             continue
-        f = open(book_path, "r")
+            # if book xxx.pdf, bookname = xxx
+        bookname = book_path[:-4]
+        f = open(f'./input/{book_path}', "r",
+                 encoding=encode[bookname], errors='ignore')
         lines = f.readlines()
         f.close()
+        f = open(f'./output/{bookname}/caption.txt', 'a')
         for line in lines:
-            pos = line.find(labels[i])
+            pos = line.find(labels[bookname])
             if not pos == -1:
-                f = open(f'output/{j}_caption.txt', 'w')
-                f.write(line[pos+len(labels[i]):]+'\n')
-                f.close()
-                j += 1
+                f.write(line[pos+len(labels[bookname]):]+'\n')
         i += 1
+        f.close()
 
 
 def main():
-    extract_img()
     extract_txt()
+    extract_img()
 
 
 if __name__ == '__main__':

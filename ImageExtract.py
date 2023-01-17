@@ -71,7 +71,7 @@ def ImageExtractor(page, textBox):
             continue
         pictures.append(area.cut(masked_page))
     if len(textBox) == 0 and len(areas):
-        return Area(0, 0, 0, 0), page
+        return [Area(0, 0, 0, 0)], [page]
     return areas, pictures
 
 
