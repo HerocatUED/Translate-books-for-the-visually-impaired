@@ -14,6 +14,9 @@ Translate a well-written book for the visually impaired, in which all the pictur
 pip install -r requirements.txt
 ```
 
+# Dataset
+You can downloat English and Chinese dataset from [here](https://drive.google.com/drive/folders/1X2qtjtiJA5TXNi0Zp1f2VtxztbT8F2DM?usp=sharing)(172 for train and 44 for valid)
+
 # Quick Start
 1. Sign up for an baidu translation API account [here](http://fanyi-api.baidu.com/)
 2. Put scanned books (as PDF file) into input folder

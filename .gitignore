@@ -9,5 +9,10 @@ report/
 .idea/
 input/
 output/
+PreprocessedData/
 *.png
 *.txt
+*.xml
+*.pyc
+*.json
+
