@@ -65,13 +65,18 @@ def ImageExtractor(page, textBox):
             img_area = Area(tx, tx, ty, ty)
             visited[ty][tx] = 1
             spread(tx, ty, w, h, stride, visited,  gray_page, img_area)
-            for area in areas:
-                if area.contain(int((img_area.x0+img_area.x1)/2), int((img_area.y0+img_area.y1)/2)):
-                    continue
-            areas.append(img_area)
+            contain_flag=False
+            for i in range(len(areas)):
+                area=areas[i]
+                if img_area.contain(int((area.x0+area.x1)/2), int((area.y0+area.y1)/2)):
+                    contain_flag=True
+                    areas[i]=img_area
+                    break
+            if not contain_flag:
+                areas.append(img_area)
     areas.sort()
     for area in areas:
-        if (area.x1-area.x0)*(area.y1-area.y0) < h*w/100:
+        if (area.x1-area.x0)*(area.y1-area.y0) < h*w/50:
             continue
         pictures.append(area.cut(masked_page))
     if len(textBox) == 0:
