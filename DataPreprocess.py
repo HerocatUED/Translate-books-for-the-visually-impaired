@@ -16,7 +16,7 @@ def extract_img():
                     lang="ch", show_log=False)
     j = 0
     k = 0
-    for book_path in book_paths: 
+    for book_path in book_paths:
         if not book_path[-3:] == "pdf":
             continue
         k += 1
@@ -40,16 +40,18 @@ def extract_img():
 
 def extract_txt():
     i = 0
+    k = 0
     for book_path in book_paths:
         if not book_path[-3:] == "txt":
             continue
             # if book xxx.pdf, bookname = xxx
+        k += 1
         bookname = book_path[:-4]
         f = open(f'./input/{book_path}', "r",
                  encoding=encode[bookname], errors='ignore')
         lines = f.readlines()
         f.close()
-        f = open(f'./output/{bookname}/caption.txt', 'a')
+        f = open(f'./output/{k}/caption.txt', 'w')
         for line in lines:
             pos = line.find(labels[bookname])
             if not pos == -1:

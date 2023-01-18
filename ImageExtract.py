@@ -76,7 +76,7 @@ def ImageExtractor(page, textBox):
                 areas.append(img_area)
     areas.sort()
     for area in areas:
-        if (area.x1-area.x0)*(area.y1-area.y0) < h*w/50:
+        if (area.x1-area.x0)*(area.y1-area.y0) < h*w/45:
             continue
         pictures.append(area.cut(masked_page))
     if len(textBox) == 0:

@@ -4,7 +4,7 @@ from ImageExtract import Area
 def textTypeset(result, filename: str, img_areas: Area):
     txt = ""
     label = "%&%$\n"
-    f = open(f'./output/{filename}.txt', 'a')
+    f = open(f'./output/{filename}.txt', 'w')
     if len(result) == 0:
         if len(img_areas):
             txt = txt + label
@@ -29,3 +29,4 @@ def textTypeset(result, filename: str, img_areas: Area):
             txt = txt + label
     # perform write operation every page
     f.write(txt)
+    f.close()
