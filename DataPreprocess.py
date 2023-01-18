@@ -7,8 +7,8 @@ from ImageExtract import *
 
 
 book_paths = os.listdir('input')
-labels = {'敦煌奇幻旅行记1': '插图，', '五三班的坏小子': '插图：', 'test': '插图'}
-encode = {'敦煌奇幻旅行记1': 'utf-8', '五三班的坏小子': 'gbk', 'test': 'utf-8'}
+labels = {'敦煌奇幻旅行记1': '插图，', '五三班的坏小子': '插图：', 'test': '插图','诺贝尔叔叔的神秘基地': '插图：','怪物危机': '插图','少年读三国': '插图：'}
+encode = {'敦煌奇幻旅行记1': 'utf-8', '五三班的坏小子': 'gbk', 'test': 'utf-8','诺贝尔叔叔的神秘基地': 'utf-8','怪物危机': 'utf-8','少年读三国': 'utf-8'}
 
 
 def extract_img():
@@ -55,7 +55,7 @@ def extract_txt():
         for line in lines:
             pos = line.find(labels[bookname])
             if not pos == -1:
-                f.write(line[pos+len(labels[bookname]):]+'\n')
+                f.write(line[pos+len(labels[bookname]):])
         i += 1
         f.close()
 
