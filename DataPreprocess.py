@@ -16,10 +16,10 @@ def extract_img():
                     lang="ch", show_log=False)
     j = 0
     k = 0
-    for book_path in book_paths:
-        k += 1
+    for book_path in book_paths: 
         if not book_path[-3:] == "pdf":
             continue
+        k += 1
         # if book xxx.pdf, bookname = xxx
         bookname = book_path[:-4]
         # convert scanned pdf file to pictures
