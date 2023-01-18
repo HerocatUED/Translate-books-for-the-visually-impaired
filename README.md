@@ -15,9 +15,10 @@ pip install -r requirements.txt
 ```
 
 # Quick Start
-1. Put scanned books (as PDF file) into input folder
-2. Run main.py with following command
+1. Sign up for an baidu translation API account [here](Sign up for an account)
+2. Put scanned books (as PDF file) into input folder
+3. Run main.py with following command (with your translation account)
 ```bash
 python main.py --id yourID --key yourKey
 ```
-3. You can find translated books (as TXT file) in output folder 
+4. You can find translated books (as TXT file) in output folder 
