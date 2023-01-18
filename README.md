@@ -16,5 +16,8 @@ pip install -r requirements.txt
 
 # Quick Start
 1. Put scanned books (as PDF file) into input folder
-2. Run main.py
+2. Run main.py with following command
+```bash
+python main.py --id yourID --key yourKey
+```
 3. You can find translated books (as TXT file) in output folder 
