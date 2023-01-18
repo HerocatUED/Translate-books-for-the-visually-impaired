@@ -55,7 +55,7 @@ def extract_txt():
         for line in lines:
             pos = line.find(labels[bookname])
             if not pos == -1:
-                f.write(line[pos+len(labels[bookname]):]+'\n')
+                f.write(line[pos+len(labels[bookname]):])
         i += 1
         f.close()
 
