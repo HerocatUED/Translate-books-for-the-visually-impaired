@@ -38,7 +38,7 @@ def ImageExtractor(page, textBox):
     masked_page = mask(page, textBox)  # mask characters
     spread_page = cv2.cvtColor(masked_page, cv2.COLOR_BGR2GRAY)  # gray-scale
     # gray_page = ndimage.gaussian_filter(spread_page, 20, mode='reflect')
-    gray_page=spread_page
+    gray_page = spread_page
     h, w = np.shape(gray_page)
     # hard-code parameter: sample_w, sample_h, stride
     sample_w = 7
@@ -57,7 +57,7 @@ def ImageExtractor(page, textBox):
             flag = False
             if len(areas):
                 for area in areas:
-                    if(area.contain(tx, ty)):
+                    if area.contain(tx, ty):
                         flag = True
                         break
             if flag:
@@ -65,16 +65,20 @@ def ImageExtractor(page, textBox):
             img_area = Area(tx, tx, ty, ty)
             visited[ty][tx] = 1
             spread(tx, ty, w, h, stride, visited,  gray_page, img_area)
+            for area in areas:
+                if area.contain(int((img_area.x0+img_area.x1)/2), int((img_area.y0+img_area.y1)/2)):
+                    continue
             areas.append(img_area)
     areas.sort()
     for area in areas:
         if (area.x1-area.x0)*(area.y1-area.y0) < h*w/100:
             continue
         pictures.append(area.cut(masked_page))
-    if len(textBox) == 0 :
+    if len(textBox) == 0:
         if len(areas):
             return [Area(0, 0, 0, 0)], [page]
-        else: return [],[]
+        else:
+            return [], []
 
     return areas, pictures
 
@@ -103,10 +107,10 @@ def spread(x: int, y: int, w: int, h: int, stride: int, visited,  gray_page, are
 def mask(page, textBox):
     for text in textBox:
         coordinate = text[0]
-        x0 = int(coordinate[0][0])
-        y0 = int(coordinate[0][1])
-        x1 = int(coordinate[2][0])
-        y1 = int(coordinate[2][1])
+        x0 = int(min(coordinate[0][0], coordinate[3][0]))-5
+        y0 = int(min(coordinate[0][1], coordinate[1][1]))-5
+        x1 = int(max(coordinate[2][0], coordinate[1][0]))+5
+        y1 = int(max(coordinate[2][1], coordinate[1][1]))+5
         for i in range(3):
             color_sum = 0
             color_sum += np.sum(page[y0:y1+1, x0, i])
@@ -114,5 +118,6 @@ def mask(page, textBox):
             color_sum += np.sum(page[y0, x0+1:x1, i])
             color_sum += np.sum(page[y1, x0+1:x1, i])
             color = color_sum/(y1-y0+x1-x0+2)/2
-            page[y0-5:y1+6, x0-5:x1+6, i] = color
+            page[y0:y1+1, x0:x1+1, i] = color
+        # page[y0-5:y1+6, x0-5:x1+6, :] = 255
     return page
