@@ -48,6 +48,7 @@ def ImageExtractor(page, textBox):
     grid_w = w/(sample_w+1)
     grid_h = h/(sample_h+1)
     visited = np.zeros([int(h/stride), int(h/stride)], dtype=np.int8)
+
     # sample points and spread
     for i in range(1, sample_w+1):
         for j in range(1, sample_h+1):
@@ -78,7 +79,7 @@ def ImageExtractor(page, textBox):
                 areas.append(img_area)
     areas.sort()
     for area in areas:
-        if (area.x1-area.x0)*(area.y1-area.y0) < h*w/45:
+        if (area.x1-area.x0)*(area.y1-area.y0) < h*w/30:
             continue
         pictures.append(area.cut(masked_page))
     if len(textBox) == 0:
@@ -86,7 +87,6 @@ def ImageExtractor(page, textBox):
             return [Area(0, 0, 0, 0)], [page]
         else:
             return [], []
-
     return areas, pictures
 
 
@@ -95,7 +95,7 @@ dy = [1, 0, -1, 0]
 
 
 def spread(x: int, y: int, w: int, h: int, stride: int, visited,  gray_page, area: Area, img_threshold: int):
-    d = int(stride/10)
+    d = int(stride/20)
     delta1 = random.randint(-d, d)
     delta2 = random.randint(-d, d)
     for i in range(4):
@@ -108,6 +108,8 @@ def spread(x: int, y: int, w: int, h: int, stride: int, visited,  gray_page, are
             visited[visit_y][visit_x] = 1
             spread(new_x, new_y, w, h, stride, visited,
                    gray_page, area, img_threshold)
+        elif new_x < 0 or new_x > w or new_y < 0 or new_y > h:
+            area.update(min(max(new_x, 0), w), min(max(0, new_y), h))
         else:
             try_x = int(x+dx[i]*stride/2)
             try_y = int(y+dy[i]*stride/2)
@@ -137,4 +139,3 @@ def mask(page, textBox):
             page[y0:y1+1, x0:x1+1, i] = color
         # page[y0-5:y1+6, x0-5:x1+6, :] = 255
     return page
-
