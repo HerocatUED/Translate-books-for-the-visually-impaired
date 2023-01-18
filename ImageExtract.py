@@ -123,19 +123,23 @@ def spread(x: int, y: int, w: int, h: int, stride: int, visited,  gray_page, are
 
 
 def mask(page, textBox):
+    h, w, d = np.shape(page)
     for text in textBox:
         coordinate = text[0]
         x0 = int(min(coordinate[0][0], coordinate[3][0]))-7
         y0 = int(min(coordinate[0][1], coordinate[1][1]))-7
         x1 = int(max(coordinate[2][0], coordinate[1][0]))+7
         y1 = int(max(coordinate[2][1], coordinate[1][1]))+7
+        x0 = max(0, x0)
+        y0 = max(0, y0)
+        x1 = min(x1, w-1)
+        y1 = min(y1, h-1)
         for i in range(3):
             color_sum = 0
-            color_sum += np.sum(page[y0:y1+1, x0, i])
-            color_sum += np.sum(page[y0:y1+1, x1, i])
+            color_sum += np.sum(page[y0:y1, x0, i])
+            color_sum += np.sum(page[y0:y1, x1, i])
             color_sum += np.sum(page[y0, x0+1:x1, i])
             color_sum += np.sum(page[y1, x0+1:x1, i])
             color = color_sum/(y1-y0+x1-x0+2)/2
             page[y0:y1+1, x0:x1+1, i] = color
-        # page[y0-5:y1+6, x0-5:x1+6, :] = 255
     return page
