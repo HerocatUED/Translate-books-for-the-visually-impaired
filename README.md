@@ -2,7 +2,7 @@
 Translate a well-written book for the visually impaired, in which all the pictures have been replaced with valid, appropriate descriptions.
 
 # Project Overview
-![image](https://github.com/HerocatUED/Translate-books-for-the-visually-impaired/blob/mater/Overview.png)
+![image](https://github.com/HerocatUED/Translate-books-for-the-visually-impaired/blob/mater/overview.jpg)
 
 # Setup
 1. Prepare Python [environment](https://github.com/PaddlePaddle/PaddleOCR/blob/release/2.6/doc/doc_ch/environment.md)
