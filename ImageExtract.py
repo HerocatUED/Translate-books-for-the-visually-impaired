@@ -48,6 +48,7 @@ def ImageExtractor(page, textBox):
     grid_w = w/(sample_w+1)
     grid_h = h/(sample_h+1)
     visited = np.zeros([int(h/stride), int(h/stride)], dtype=np.int8)
+
     # sample points and spread
     for i in range(1, sample_w+1):
         for j in range(1, sample_h+1):
@@ -78,7 +79,7 @@ def ImageExtractor(page, textBox):
                 areas.append(img_area)
     areas.sort()
     for area in areas:
-        if (area.x1-area.x0)*(area.y1-area.y0) < h*w/45:
+        if (area.x1-area.x0)*(area.y1-area.y0) < h*w/30:
             continue
         pictures.append(area.cut(masked_page))
     if len(textBox) == 0:
@@ -86,7 +87,6 @@ def ImageExtractor(page, textBox):
             return [Area(0, 0, 0, 0)], [page]
         else:
             return [], []
-
     return areas, pictures
 
 
@@ -95,7 +95,7 @@ dy = [1, 0, -1, 0]
 
 
 def spread(x: int, y: int, w: int, h: int, stride: int, visited,  gray_page, area: Area, img_threshold: int):
-    d = int(stride/10)
+    d = int(stride/20)
     delta1 = random.randint(-d, d)
     delta2 = random.randint(-d, d)
     for i in range(4):
@@ -108,6 +108,8 @@ def spread(x: int, y: int, w: int, h: int, stride: int, visited,  gray_page, are
             visited[visit_y][visit_x] = 1
             spread(new_x, new_y, w, h, stride, visited,
                    gray_page, area, img_threshold)
+        elif new_x < 0 or new_x > w or new_y < 0 or new_y > h:
+            area.update(min(max(new_x, 0), w), min(max(0, new_y), h))
         else:
             try_x = int(x+dx[i]*stride/2)
             try_y = int(y+dy[i]*stride/2)
@@ -121,20 +123,23 @@ def spread(x: int, y: int, w: int, h: int, stride: int, visited,  gray_page, are
 
 
 def mask(page, textBox):
+    h, w, d = np.shape(page)
     for text in textBox:
         coordinate = text[0]
-        x0 = int(min(coordinate[0][0], coordinate[3][0]))-5
-        y0 = int(min(coordinate[0][1], coordinate[1][1]))-5
-        x1 = int(max(coordinate[2][0], coordinate[1][0]))+5
-        y1 = int(max(coordinate[2][1], coordinate[1][1]))+5
+        x0 = int(min(coordinate[0][0], coordinate[3][0]))-7
+        y0 = int(min(coordinate[0][1], coordinate[1][1]))-7
+        x1 = int(max(coordinate[2][0], coordinate[1][0]))+7
+        y1 = int(max(coordinate[2][1], coordinate[1][1]))+7
+        x0 = max(0, x0)
+        y0 = max(0, y0)
+        x1 = min(x1, w-1)
+        y1 = min(y1, h-1)
         for i in range(3):
             color_sum = 0
-            color_sum += np.sum(page[y0:y1+1, x0, i])
-            color_sum += np.sum(page[y0:y1+1, x1, i])
+            color_sum += np.sum(page[y0:y1, x0, i])
+            color_sum += np.sum(page[y0:y1, x1, i])
             color_sum += np.sum(page[y0, x0+1:x1, i])
             color_sum += np.sum(page[y1, x0+1:x1, i])
             color = color_sum/(y1-y0+x1-x0+2)/2
             page[y0:y1+1, x0:x1+1, i] = color
-        # page[y0-5:y1+6, x0-5:x1+6, :] = 255
     return page
-

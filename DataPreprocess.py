@@ -7,15 +7,15 @@ from ImageExtract import *
 
 
 book_paths = os.listdir('input')
-labels = {'敦煌奇幻旅行记1': '插图，', '五三班的坏小子': '插图：', 'test': '插图'}
-encode = {'敦煌奇幻旅行记1': 'utf-8', '五三班的坏小子': 'gbk', 'test': 'utf-8'}
+labels = {'敦煌奇幻旅行记1': '插图，', '五三班的坏小子': '插图：', '让孩子读懂世界的21个故事': '图'}
+encode = {'敦煌奇幻旅行记1': 'utf-8', '五三班的坏小子': 'gbk', '让孩子读懂世界的21个故事': 'utf-8'}
 
 
 def extract_img():
     ocr = PaddleOCR(use_angle_cls=True, use_gpu=True,
                     lang="ch", show_log=False)
     j = 0
-    k = 0
+    k = 0  
     for book_path in book_paths:
         if not book_path[-3:] == "pdf":
             continue
@@ -51,11 +51,11 @@ def extract_txt():
                  encoding=encode[bookname], errors='ignore')
         lines = f.readlines()
         f.close()
-        f = open(f'./output/{k}/caption.txt', 'w')
+        f = open(f'./output/{k}/caption.txt', 'w', encoding=encode[bookname])
         for line in lines:
             pos = line.find(labels[bookname])
             if not pos == -1:
-                f.write(line[pos+len(labels[bookname]):]+'\n')
+                f.write(line[pos+len(labels[bookname]):])
         i += 1
         f.close()
 
