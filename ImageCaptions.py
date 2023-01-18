@@ -4,6 +4,7 @@ from PIL import Image
 import torch
 import requests
 import random
+import json
 from hashlib import md5
 from typing import List
 
