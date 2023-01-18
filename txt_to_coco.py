@@ -7,7 +7,7 @@ from PIL import Image
 def txt_to_coco(img_path: str, txt_path: str, coco_path: str):
     os.makedirs(os.path.join(coco_path, "annotations"), exist_ok=True)
     imgs = os.listdir(img_path)
-    imgs.sort(key=lambda x: x[:-4])
+    imgs.sort(key=lambda x: x[:-10])
     f = open(txt_path, "r", encoding="utf-8", errors='ignore')
     images = []
     annotations = []
@@ -27,15 +27,15 @@ def txt_to_coco(img_path: str, txt_path: str, coco_path: str):
         id += 1
 
     annotation = {"info": {"year": 2023, "version": '1.0', "description": "Accessible Book Caption Dataset",
-                           "contributor": 'Lumière Team', "url": '', "date_created": '2023-1-20 23:59:59', },
+                           "contributor": 'Lumiere Team', "url": '', "date_created": '2023-1-20 23:59:59', },
                   "images": images, "annotations": annotations, "licenses": licenses, }
     with open(os.path.join(coco_path, "annotations/captions_train2017.json"), 'w') as output:
-        json.dump(annotation, output, separators=(',', ': '))
+        json.dump(annotation, output, separators=(',', ': '),ensure_ascii=False)
     output.close()
 
 
 if __name__ == "__main__":
-    img_path = "output/old/怪物危机"
-    txt_path = "output/old/怪物危机/caption.txt"
-    coco_path = "temp_coco"
+    img_path = "Chinese/train2017"
+    txt_path = "Chinese/train2017/train.txt"
+    coco_path = "Chinese"
     txt_to_coco(img_path, txt_path, coco_path)
