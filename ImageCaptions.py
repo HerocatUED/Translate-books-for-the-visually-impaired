@@ -46,6 +46,3 @@ def ImageCaption(imgs: List[np.ndarray], appid: str, appkey: str) -> List[str]:
         result = r.json()
         captions.append(result['trans_result'][0]['dst'])
     return captions
-
-
-

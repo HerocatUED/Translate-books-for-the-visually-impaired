@@ -1,7 +1,8 @@
-from scipy import ndimage
-import numpy as np
 import cv2
 import sys
+import random
+import numpy as np
+from scipy import ndimage
 sys.setrecursionlimit(2000)
 
 
@@ -37,38 +38,55 @@ def ImageExtractor(page, textBox):
     pictures = []  # [img1,img2,img3, ...]
     masked_page = mask(page, textBox)  # mask characters
     spread_page = cv2.cvtColor(masked_page, cv2.COLOR_BGR2GRAY)  # gray-scale
-    h, w = np.shape(spread_page)
-    # hard-code parameter: sample_w, sample_h, stride
-    sample_w = 5
-    sample_h = 7
+    gray_page = ndimage.gaussian_filter(spread_page, 20, mode='reflect')
+    h, w = np.shape(gray_page)
+    # hard-code parameter: sample_w, sample_h, stride, img_threshold
+    sample_w = 7
+    sample_h = 9
     stride = 100
+    img_threshold = 240
     grid_w = w/(sample_w+1)
     grid_h = h/(sample_h+1)
-    visited = np.zeros([h, w], dtype=np.int8)
+    visited = np.zeros([int(h/stride), int(h/stride)], dtype=np.int8)
     # sample points and spread
     for i in range(1, sample_w+1):
         for j in range(1, sample_h+1):
             tx = int(grid_w*i)
             ty = int(grid_h*j)
-            if spread_page[ty][tx] >= 240:
+            if gray_page[ty][tx] >= img_threshold:
                 continue
             flag = False
             if len(areas):
                 for area in areas:
-                    if(area.contain(tx, ty)):
+                    if area.contain(tx, ty):
                         flag = True
                         break
             if flag:
                 continue
             img_area = Area(tx, tx, ty, ty)
-            visited[ty][tx] = 1
-            spread(tx, ty, w, h, stride, visited, spread_page, img_area)
-            areas.append(img_area)
+            visited[int(ty/stride)][int(tx/stride)] = 1
+            spread(tx, ty, w, h, stride, visited,
+                   gray_page, img_area, img_threshold)
+            contain_flag = False
+            for i in range(len(areas)):
+                area = areas[i]
+                if img_area.contain(int((area.x0+area.x1)/2), int((area.y0+area.y1)/2)):
+                    contain_flag = True
+                    areas[i] = img_area
+                    break
+            if not contain_flag:
+                areas.append(img_area)
     areas.sort()
     for area in areas:
-        if (area.x1-area.x0)*(area.y1-area.y0) < h*w/200:
+        if (area.x1-area.x0)*(area.y1-area.y0) < h*w/45:
             continue
         pictures.append(area.cut(masked_page))
+    if len(textBox) == 0:
+        if len(areas):
+            return [Area(0, 0, 0, 0)], [page]
+        else:
+            return [], []
+
     return areas, pictures
 
 
@@ -76,30 +94,39 @@ dx = [0, 1, 0, -1]
 dy = [1, 0, -1, 0]
 
 
-def spread(x: int, y: int, w: int, h: int, stride: int, visited, spread_page, area: Area):
+def spread(x: int, y: int, w: int, h: int, stride: int, visited,  gray_page, area: Area, img_threshold: int):
+    d = int(stride/10)
+    delta1 = random.randint(-d, d)
+    delta2 = random.randint(-d, d)
     for i in range(4):
-        new_x = int(x+dx[i]*stride)
-        new_y = int(y+dy[i]*stride)
-        if new_x >= 0 and new_x < w and new_y >= 0 and new_y < h and (not visited[new_y][new_x]) and spread_page[new_y][new_x] < 240:
+        new_x = int(x+dx[i]*stride)+delta1
+        new_y = int(y+dy[i]*stride)+delta2
+        visit_x = int(new_x/stride)
+        visit_y = int(new_y/stride)
+        if new_x >= 0 and new_x < w and new_y >= 0 and new_y < h and (not visited[visit_y][visit_x]) and gray_page[new_y][new_x] < img_threshold:
             area.update(new_x, new_y)
-            visited[new_y][new_x] = 1
-            spread(new_x, new_y, w, h, stride, visited, spread_page, area)
+            visited[visit_y][visit_x] = 1
+            spread(new_x, new_y, w, h, stride, visited,
+                   gray_page, area, img_threshold)
         else:
             try_x = int(x+dx[i]*stride/2)
             try_y = int(y+dy[i]*stride/2)
-            if try_x >= 0 and try_x < w and try_y >= 0 and try_y < h and (not visited[try_y][try_x]) and spread_page[try_y][try_x] < 240:
+            visit_x = int(try_x/stride)
+            visit_y = int(try_y/stride)
+            if try_x >= 0 and try_x < w and try_y >= 0 and try_y < h and (not visited[visit_y][visit_x]) and gray_page[try_y][try_x] < img_threshold:
                 area.update(try_x, try_y)
-                visited[try_y][try_x] = 1
-                spread(try_x, try_y, w, h, stride, visited, spread_page, area)
+                visited[visit_y][visit_x] = 1
+                spread(try_x, try_y, w, h, stride, visited,
+                       gray_page, area, img_threshold)
 
 
 def mask(page, textBox):
     for text in textBox:
         coordinate = text[0]
-        x0 = int(coordinate[0][0])
-        y0 = int(coordinate[0][1])
-        x1 = int(coordinate[2][0])
-        y1 = int(coordinate[2][1])
+        x0 = int(min(coordinate[0][0], coordinate[3][0]))-5
+        y0 = int(min(coordinate[0][1], coordinate[1][1]))-5
+        x1 = int(max(coordinate[2][0], coordinate[1][0]))+5
+        y1 = int(max(coordinate[2][1], coordinate[1][1]))+5
         for i in range(3):
             color_sum = 0
             color_sum += np.sum(page[y0:y1+1, x0, i])
@@ -107,5 +134,7 @@ def mask(page, textBox):
             color_sum += np.sum(page[y0, x0+1:x1, i])
             color_sum += np.sum(page[y1, x0+1:x1, i])
             color = color_sum/(y1-y0+x1-x0+2)/2
-            page[y0-5:y1+6, x0-5:x1+6, i] = color
+            page[y0:y1+1, x0:x1+1, i] = color
+        # page[y0-5:y1+6, x0-5:x1+6, :] = 255
     return page
+
