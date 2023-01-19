@@ -48,7 +48,7 @@ def ImageExtractor(page, textBox):
     img_threshold = 240
     grid_w = w/(sample_w+1)
     grid_h = h/(sample_h+1)
-    visited = np.zeros([int(h/stride), int(h/stride)], dtype=np.int8)
+    visited = np.zeros([int(h/stride)+1, int(h/stride)+1], dtype=np.int8)
     # sample points and spread
     for i in range(1, sample_w+1):
         for j in range(1, sample_h+1):
