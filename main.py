@@ -34,7 +34,7 @@ def main(appid: str, appkey: str):
             textTypeset(result, bookname, img_areas)
             # image-caption
             txt_caption = ImageCaption(imgs,appid, appkey)
-            txt_captions.append(txt_caption)
+            txt_captions+=txt_caption
         # conbine txt_captions and txt-file
         reconstruct(txt_captions, bookname)
 

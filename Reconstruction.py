@@ -15,6 +15,9 @@ def reconstruct(txt_captions,bookname:str):
         new_file = new_file + "插图：" + lines[idx].replace(label,txt_caption)
         f.write(new_file)
         new_file = ""
-        idx=idx+1
+        idx = idx + 1
+    while idx<cnt:
+        f.write(lines[idx])
+        idx = idx + 1
     f.close()
     
