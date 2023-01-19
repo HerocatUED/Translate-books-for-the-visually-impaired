@@ -6,7 +6,12 @@ from PIL import Image
 
 def txt_to_coco(img_path: str, txt_path: str, coco_path: str):
     os.makedirs(os.path.join(coco_path, "annotations"), exist_ok=True)
-    imgs = os.listdir(img_path)
+    path = os.listdir(img_path)
+    imgs=[]
+    for img in path:
+        if not img[-3:] == "png":
+            continue
+        imgs.append(img)
     imgs.sort(key=lambda x: x[:-10])
     f = open(txt_path, "r", encoding="utf-8", errors='ignore')
     images = []
@@ -14,12 +19,10 @@ def txt_to_coco(img_path: str, txt_path: str, coco_path: str):
     licenses = []
     id = 0
     for img in imgs:
-        if not img[-3:] == "png":
-            continue
         im = Image.open(os.path.join(img_path, img))
         image = {"id": id, "width": im.width, "height": im.height, "file_name": img, "license": 0,
                  "flickr_url": '', "coco_url": '', "date_captured": '2023-1-20 23:59:59', }
-        caption = f.readline()
+        caption = f.readline().strip("\n")
         annotation = {"image_id": id, "id": id, "caption": caption}
         images.append(image)
         annotations.append(annotation)
@@ -35,7 +38,7 @@ def txt_to_coco(img_path: str, txt_path: str, coco_path: str):
 
 
 if __name__ == "__main__":
-    img_path = "Chinese/train2017"
-    txt_path = "Chinese/train2017/train.txt"
-    coco_path = "Chinese"
+    img_path = "English/images/train2017"
+    txt_path = "English/images/train2017/train.txt"
+    coco_path = "English"
     txt_to_coco(img_path, txt_path, coco_path)
