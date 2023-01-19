@@ -16,6 +16,10 @@ def main(appid: str, appkey: str):
             continue
         # if book xxx.pdf, bookname = xxx
         bookname = book_path[:-4]
+        # cover txt file
+        f = open(f'./output/{bookname}.txt', 'w')
+        f.write("")
+        f.close()
         # convert scanned pdf file to pictures
         print(f"Processing {bookname}")
         txt_captions=[]
@@ -30,7 +34,7 @@ def main(appid: str, appkey: str):
             textTypeset(result, bookname, img_areas)
             # image-caption
             txt_caption = ImageCaption(imgs,appid, appkey)
-            txt_captions.append(txt_caption)
+            txt_captions+=txt_caption
         # conbine txt_captions and txt-file
         reconstruct(txt_captions, bookname)
 

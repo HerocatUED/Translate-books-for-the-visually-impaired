@@ -34,6 +34,7 @@ class Area:  # x-width / y-height
 
 # extract images and their areas from pages
 def ImageExtractor(page, textBox):
+    output_areas=[] # [page: area1,area2,...]
     areas = []  # [page: area1,area2,...]
     pictures = []  # [img1,img2,img3, ...]
     masked_page = mask(page, textBox)  # mask characters
@@ -47,8 +48,7 @@ def ImageExtractor(page, textBox):
     img_threshold = 240
     grid_w = w/(sample_w+1)
     grid_h = h/(sample_h+1)
-    visited = np.zeros([int(h/stride), int(h/stride)], dtype=np.int8)
-
+    visited = np.zeros([int(h/stride)+1, int(w/stride)+1], dtype=np.int8)
     # sample points and spread
     for i in range(1, sample_w+1):
         for j in range(1, sample_h+1):
@@ -82,12 +82,13 @@ def ImageExtractor(page, textBox):
         if (area.x1-area.x0)*(area.y1-area.y0) < h*w/30:
             continue
         pictures.append(area.cut(masked_page))
+        output_areas.append(area)
     if len(textBox) == 0:
         if len(areas):
             return [Area(0, 0, 0, 0)], [page]
         else:
             return [], []
-    return areas, pictures
+    return output_areas, pictures
 
 
 dx = [0, 1, 0, -1]
