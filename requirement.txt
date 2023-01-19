@@ -1,2 +1,3 @@
 opencv-python
 Pillow
+pymupdf==1.18.14
