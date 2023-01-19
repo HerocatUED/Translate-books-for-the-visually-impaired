@@ -16,3 +16,4 @@ PreprocessedData/
 *.pyc
 *.json
 
+*.pth
