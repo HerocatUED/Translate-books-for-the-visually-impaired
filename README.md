@@ -18,10 +18,10 @@ Translate a well-written book for the visually impaired, in which all the pictur
 
 ## Train
 
-1. Download the configuration file and dataset for training, you can also orgnize your own dataset according to our example.
-2. Put the annotations and images folder in the directory LAVIS-main/cache/coco.
-3. Copy the caption_on_task.yaml to LAVIS-main and task_cap.yaml to LAVIS-main/lavis/configs. The caption_on_task.yaml determines the training configuration and task_cap.yaml determines the dataset. You can refer to [the official document](https://opensource.salesforce.com/LAVIS//latest/tutorial.datasets.html) to modify them for your training.
-4. Open LAVIS-main/lavis/datasets/builders/caption_builder.py and edit class **COCOCapBuilder**, modify its default path to the "configs/task_cap.yaml" or according to where you put the configuration file.
+1. Download the [configuration file](https://drive.google.com/drive/folders/1_R--gXxzAYVg_ORV5RpuVE1A-CuTC8mc?usp=share_link) and [dataset](https://drive.google.com/file/d/105kgWN_Wu0a8CZARBQqU2CpJTkThfMPd/view?usp=share_link) for training, you can also orgnize your own dataset according to our example.
+2. Put the annotations and images folder in the directory "LAVIS-main/cache/coco".
+3. Copy the "caption_on_task.yaml" to "LAVIS-main" and "task_cap.yaml" to "LAVIS-main/lavis/configs". The "caption_on_task.yaml" determines the training configuration and "task_cap.yaml" determines the dataset. You can refer to [the official document](https://opensource.salesforce.com/LAVIS//latest/tutorial.datasets.html) to modify them for your training.
+4. Open "LAVIS-main/lavis/datasets/builders/caption_builder.py" and edit class **COCOCapBuilder**, modify its default path to the "configs/task_cap.yaml" or according to where you put the configuration file.
 5. If you install the LAVIS in editable mode, skip this step.Otherwise, run
 
     ```
