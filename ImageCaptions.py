@@ -1,12 +1,12 @@
-import numpy as np
-from lavis.models import load_model_and_preprocess
-from PIL import Image
-import torch
-import requests
 import random
-import json
 from hashlib import md5
 from typing import List
+
+import numpy as np
+import requests
+import torch
+from PIL import Image
+from lavis.models import registry, load_preprocess, OmegaConf
 
 
 def make_md5(s, encoding='utf-8'):
@@ -20,9 +20,14 @@ def ImageCaption(imgs: List[np.ndarray], appid: str, appkey: str) -> List[str]:
     appkey: key of baidu translation API
     """
     captions = []
+
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
-    model, vis_processors, _ = load_model_and_preprocess(name="blip_caption", model_type="large_coco", is_eval=True,
-                                                         device=device)
+    cfg = OmegaConf.load("model.yaml")
+    vis_processors, _ = load_preprocess(cfg.preprocess)
+    model_cls = registry.get_model_class("blip_caption")
+    model = model_cls.from_config(cfg.model)
+    model.eval()
+    model = model.to(device)
 
     from_lang = 'en'
     to_lang = 'zh'
@@ -46,3 +51,4 @@ def ImageCaption(imgs: List[np.ndarray], appid: str, appkey: str) -> List[str]:
         result = r.json()
         captions.append(result['trans_result'][0]['dst'])
     return captions
+

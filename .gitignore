@@ -6,5 +6,13 @@
 *.fatbin
 Datasets/
 report/
-output/
+.idea/
 input/
+output/
+PreprocessedData/
+*.png
+*.txt
+*.xml
+*.pyc
+*.json
+
