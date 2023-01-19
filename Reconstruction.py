@@ -1,12 +1,9 @@
 
 def reconstruct(txt_captions,bookname:str):
-    f = open(f'./output/{bookname}.txt', 'rw')
+    f = open(f'./output/{bookname}.txt', 'r')
     lines = f.readlines()
     f.close()
-    f = open(f'./output/{bookname}.txt', '')
-    f.write("") # cover old version
-    f.close()
-    f = open(f'./output/{bookname}.txt', 'a')
+    f = open(f'./output/{bookname}.txt', 'w')
     label = "%&%$"
     new_file = ""
     cnt = len(lines)
