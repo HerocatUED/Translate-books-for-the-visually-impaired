@@ -1,5 +1,3 @@
-import os.path
-
 import requests
 import random
 from hashlib import md5
@@ -28,16 +26,3 @@ def translate(src: str, appid: str, appkey: str, from_lang: str = 'zh', to_lang:
     r = requests.post(url, params=payload, headers=headers)
     result = r.json()
     return result['trans_result'][0]['dst']
-
-
-if __name__ == "__main__":
-    path = "PreprocessedData"
-    appid = "20221116001456044"
-    appkey = "csyVeF17Gwuyoc26bGgp"
-    with open(os.path.join(path, "caption.txt"), "r", encoding="utf-8", ) as src:
-        with open(os.path.join(path, "english.txt"), "w", encoding="utf-8") as dst:
-            input = src.readlines()
-            for line in input:
-                dst.write(translate(line, appid, appkey)+'\n')
-    src.close()
-    dst.close()
