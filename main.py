@@ -30,6 +30,10 @@ def main(appid: str, appkey: str):
             continue
         # if book xxx.pdf, bookname = xxx
         bookname = book_path[:-4]
+        # cover txt file
+        f = open(f'./output/{bookname}.txt', 'w')
+        f.write("")
+        f.close()
         # convert scanned pdf file to pictures
         print(f"Processing {bookname}")
         txt_captions = []
