@@ -15,7 +15,7 @@ def extract_img():
     ocr = PaddleOCR(use_angle_cls=True, use_gpu=True,
                     lang="ch", show_log=False)
     j = 0
-    k = 0  
+    k = 0 
     for book_path in book_paths:
         if not book_path[-3:] == "pdf":
             continue
