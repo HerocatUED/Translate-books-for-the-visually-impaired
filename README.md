@@ -51,7 +51,7 @@ To use the model you trained, just modify the path in model.yaml to your own mod
 
 ## Quick Start
 
-1. Sign up for an baidu translation API account [here](http://fanyi-api.baidu.com/)
+1. Sign up for an baidu translation API account [here](http://fanyi-api.baidu.com/product/11)
 2. Download pre-trained model from [here](https://drive.google.com/file/d/1rPU4OLtWhpfIDiYLGngvolWkDN3srDuv/view?usp=share_link), and put it in the /model folder
 3. Put scanned books (as PDF file) into input folder
 4. Run main.py with following command (with your translation account)
