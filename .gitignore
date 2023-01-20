@@ -10,6 +10,7 @@ report/
 input/
 output/
 PreprocessedData/
+__pycache__/
 *.png
 *.txt
 *.xml
