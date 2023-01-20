@@ -3,6 +3,7 @@ import os
 
 import torch
 from lavis.models import registry, load_preprocess, OmegaConf
+import numpy as np
 from paddleocr import PaddleOCR
 
 from ImageCaptions import ImageCaption
@@ -40,8 +41,16 @@ def main(appid: str, appkey: str):
         pages = toImage(book_path)
         for i in range(len(pages)):
             print(f'Processing page {i}')
-            page = pages[i]
-            result = ocr.ocr(page, cls=False)[0]
+            page=pages[i]
+            h,w,d=np.shape(page)
+            cut_page=np.copy(page)
+            cut_h=int(h/9)
+            cut_w=int(w/7)
+            cut_page[0:cut_h,:,:]=0
+            cut_page[-cut_h:,:,:]=0
+            cut_page[:,0:cut_w,:]=0
+            cut_page[:,-cut_w:,:]=0
+            result = ocr.ocr(cut_page, cls=False)[0]
             # extract images and their areas from pages
             img_areas, imgs = ImageExtractor(page, result)
             # text typeset
