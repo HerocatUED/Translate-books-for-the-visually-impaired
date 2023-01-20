@@ -1,7 +1,7 @@
 from ImageExtract import Area
 
 
-def textTypeset(result, filename: str, img_areas: Area):
+def textTypeset(result, filename: str, img_areas: Area, h: int, w: int):
     txt = ""
     label = "%&%$\n"
     f = open(f'./output/{filename}.txt', 'a',encoding="utf-8")
@@ -12,7 +12,18 @@ def textTypeset(result, filename: str, img_areas: Area):
             return
         else:
             return
+    cut_h = int(h/9)
+    cut_w = int(w/7)
     for idx in range(len(result)):
+        coordinate = result[idx][0]
+        x0 = int(min(coordinate[0][0], coordinate[3][0]))
+        y0 = int(min(coordinate[0][1], coordinate[1][1]))
+        x1 = int(max(coordinate[2][0], coordinate[1][0]))
+        y1 = int(max(coordinate[2][1], coordinate[1][1]))
+        x = (x0+x1)/2
+        y = (y0+y1)/2
+        if x < cut_w or x > w-cut_w or y < cut_h or y > h-cut_h:
+            continue
         txt = txt + result[idx][1][0] + "\n"
     # insert image labels
     for area in img_areas:
