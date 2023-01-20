@@ -8,7 +8,7 @@ model:
   load_finetuned: True
 
   pretrained: "https://storage.googleapis.com/sfr-vision-language-research/BLIP/models/model_large.pth"
-  finetuned: "model_large_caption.pth"
+  finetuned: "model/model_large_caption.pth"
 
   vit_type: "large"
   vit_grad_ckpt: True

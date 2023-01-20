@@ -1,7 +1,9 @@
 # Translate-books-for-the-visually-impaired
+
 Translate a well-written book for the visually impaired, in which all the pictures have been replaced with valid, appropriate descriptions.
 
-# Project Overview
+## Project Overview
+
 ![image](https://github.com/HerocatUED/Translate-books-for-the-visually-impaired/blob/mater/overview.jpg)
 
 ## Setup
@@ -27,15 +29,19 @@ Translate a well-written book for the visually impaired, in which all the pictur
     ```
     pip install .
     ```
+
     again to overwrite the previous version.
 6. Run
+
     ```
     python train.py --cfg-path caption_on_task.yaml
     ```
 
+
 To use the model you trained, just modify the path in model.yaml to your own model path.Ensure that your model is using BLIP architecture or there will be error.
 
 ## Dataset&Model
+
 |File|Download|
 |:----:|:----:|
 |Chinese dataset|[Google Drive](https://drive.google.com/file/d/1t62z4kjycI5qOpchzIjV3A_sWrwKfSw2/view?usp=share_link)|
@@ -43,13 +49,16 @@ To use the model you trained, just modify the path in model.yaml to your own mod
 |English dataset for LAVIS traning|[Google Drive](https://drive.google.com/file/d/105kgWN_Wu0a8CZARBQqU2CpJTkThfMPd/view?usp=share_link)|
 |Pre-trained Model|[Google Drive](https://drive.google.com/file/d/1rPU4OLtWhpfIDiYLGngvolWkDN3srDuv/view?usp=share_link)|
 
-# Quick Start
+## Quick Start
 
 1. Sign up for an baidu translation API account [here](http://fanyi-api.baidu.com/)
-2. Put scanned books (as PDF file) into input folder
-3. Run main.py with following command (with your translation account)
+2. Download pre-trained model from [here](https://drive.google.com/file/d/1rPU4OLtWhpfIDiYLGngvolWkDN3srDuv/view?usp=share_link), and put it in the /model folder
+3. Put scanned books (as PDF file) into input folder
+4. Run main.py with following command (with your translation account)
+
     ```bash
     python main.py --id yourID --key yourKey
     ```
-4. You can find translated books (as TXT file) in output folder 
+
+5. You can find translated books (as TXT file) in output folder 
 
