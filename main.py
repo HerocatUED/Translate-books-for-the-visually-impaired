@@ -8,6 +8,7 @@ from TextTypeset import textTypeset
 from ImageCaptions import ImageCaption
 from Reconstruction import reconstruct
 
+
 def main(appid: str, appkey: str):
     ocr = PaddleOCR(use_angle_cls=True, use_gpu=True,
                     lang="ch", show_log=False)
@@ -23,37 +24,33 @@ def main(appid: str, appkey: str):
         f.close()
         # convert scanned pdf file to pictures
         print(f"Processing {bookname}")
-        txt_captions=[]
+        txt_captions = []
         pages = toImage(book_path)
         for i in range(len(pages)):
             print(f'Processing page {i}')
-            page=pages[i]
-            h,w,d=np.shape(page)
-            cut_page=np.copy(page)
-            cut_h=int(h/9)
-            cut_w=int(w/7)
-            cut_page[0:cut_h,:,:]=0
-            cut_page[-cut_h:,:,:]=0
-            cut_page[:,0:cut_w,:]=0
-            cut_page[:,-cut_w:,:]=0
-            result = ocr.ocr(cut_page, cls=False)[0]
+            page = pages[i]
+            h, w, d = np.shape(page)
+            result = ocr.ocr(page, cls=False)[0]
             # extract images and their areas from pages
             img_areas, imgs = ImageExtractor(page, result)
             # text typeset
-            textTypeset(result, bookname, img_areas)
+            textTypeset(result, bookname, img_areas, h, w)
             # image-caption
-            txt_caption = ImageCaption(imgs,appid, appkey)
-            txt_captions+=txt_caption
+            txt_caption = ImageCaption(imgs, appid, appkey)
+            txt_captions += txt_caption
         # conbine txt_captions and txt-file
         reconstruct(txt_captions, bookname)
 
+
 def parse_args():
-    parser = argparse.ArgumentParser(description='Your baidu translation API account')
+    parser = argparse.ArgumentParser(
+        description='Your baidu translation API account')
     parser.add_argument('--id', type=str)
     parser.add_argument('--key', type=str)
     args = parser.parse_args()
     return args
 
+
 if __name__ == '__main__':
-    args=parse_args()
-    main(args.id,args.key)
+    args = parse_args()
+    main(args.id, args.key)
